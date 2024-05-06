@@ -1,0 +1,10 @@
+#alice
+crencas: { estaFrio ; naoTenhoCasaco ; }
+objetivos: { comprarCasaco ; naoSentirFrio ; };
+planos: { 
+    plano1 ( comprarCasaco ; estaFrio E naoTenhoCasaco ;
+        { sair; procurarLoja; comprarCasaco; } ) ;
+    plano2 ( naoSentirFrio ; NAO estaFrio ; { sair; caminhar ; } ) ;
+    plano3 ( naoSentirFrio ; estaFrio E naoTenhoCasaco ;
+        { ficarEmCasa ; lerLivro ; } ) ;
+}
