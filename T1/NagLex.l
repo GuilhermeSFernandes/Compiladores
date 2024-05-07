@@ -1,26 +1,37 @@
 %{
 #include "nag.tab.h"
 %}
-
+WHITESPACE [ \t\n]
+NAME    [a-zA-Z][a-zA-Z0-9_]*
+CRENCAS "crencas:"
+OBJETIVOS "objetivos:"
+PLANOS "planos:"
+HASH    "#"
+ABRE_CHAVE "{"
+FECHA_CHAVE "}"
+PONTO_VIRGULA ";"
+ABRE_PARENTESE "("
+FECHA_PARENTESE ")"
+E "E"
+OU "OU"
+NAO "NAO"
 %%
 
-#.*                            /* Ignorar comentários */
-
-"#"                            { return HASH; }
-"crencas:"                     { return CRENCAS; }
-"objetivos:"                   { return OBJETIVOS; }
-"planos:"                      { return PLANOS; }
-"{"                            { return ABRE_CHAVE; }
-"}"                            { return FECHA_CHAVE; }
-";"                            { return PONTO_VIRGULA; }
-"("                            { return ABRE_PARENTESE; }
-")"                            { return FECHA_PARENTESE; }
-"E"                            { return E; }
-"OU"                           { return OU; }
-"NAO"                          { return NAO; }
-[ \t\n]                        ; /* Ignorar espaços em branco */
-[a-zA-Z][a-zA-Z0-9_]*          { yylval.str = strdup(yytext); return NAME; }
-.                              { return yytext[0]; } /* Retornar outros caracteres como tokens */
+{HASH}                        { return HASH; }
+{CRENCAS}                     { return CRENCAS; }
+{OBJETIVOS}                   { return OBJETIVOS; }
+{PLANOS}                      { return PLANOS; }
+{ABRE_CHAVE}                  { return ABRE_CHAVE; }
+{FECHA_CHAVE}                 { return FECHA_CHAVE; }
+{PONTO_VIRGULA}               { return PONTO_VIRGULA; }
+{ABRE_PARENTESE}              { return ABRE_PARENTESE; }
+{FECHA_PARENTESE}             { return FECHA_PARENTESE; }
+{E}                           { return E; }
+{OU}                          { return OU; }
+{NAO}                         { return NAO; }
+{NAME}                        { yylval.str = strdup(yytext); return NAME; }
+.                             { return yytext[0]; } /* Retornar outros caracteres como tokens */
+{WHITESPACE}                  ; /* Ignorar espaços em branco */
 
 %%
 
