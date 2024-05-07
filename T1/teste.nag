@@ -1,10 +1,10 @@
-#alice
-crencas: { estaFrio ; naoTenhoCasaco ; }
-objetivos: { comprarCasaco ; naoSentirFrio ; };
+#carol
+crencas: { estaEnsolarado ; tenhoProtetorSolar ; }
+objetivos: { passarProtetorSolar ; naoPegarSol ; }
 planos: { 
-    plano1 ( comprarCasaco ; estaFrio E naoTenhoCasaco ;
-        { sair; procurarLoja; comprarCasaco; } ) ;
-    plano2 ( naoSentirFrio ; NAO estaFrio ; { sair; caminhar ; } ) ;
-    plano3 ( naoSentirFrio ; estaFrio E naoTenhoCasaco ;
+    plano1 ( passarProtetorSolar ; estaEnsolarado E tenhoProtetorSolar ;
+        { pegarProtetorSolar; passarProtetorSolar; } ) ;
+    plano2 ( naoPegarSol ; NAO estaEnsolarado ; { ficarEmCasa; assistirFilme ; } ) ;
+    plano3 ( naoPegarSol ; estaEnsolarado E tenhoProtetorSolar ;
         { ficarEmCasa ; lerLivro ; } ) ;
-}
+}%

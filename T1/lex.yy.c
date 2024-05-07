@@ -362,19 +362,19 @@ struct yy_trans_info
 	};
 static const flex_int16_t yy_accept[47] =
     {   0,
-        0,    0,   17,   14,   14,   15,    1,    8,    9,    7,
-       13,   10,   13,   13,   13,   13,   13,    5,    6,   13,
-       13,   11,   13,   13,   13,   12,   13,   13,   13,   13,
-       13,   13,   13,   13,   13,   13,   13,   13,   13,   13,
-        4,    2,   13,   13,    3,    0
+        0,    0,   17,   16,   15,    1,    2,    9,   10,    8,
+       14,   11,   14,   14,   14,   14,   14,    6,    7,   14,
+       14,   12,   14,   14,   14,   13,   14,   14,   14,   14,
+       14,   14,   14,   14,   14,   14,   14,   14,   14,   14,
+        5,    3,   14,   14,    4,    0
     } ;
 
 static const YY_CHAR yy_ec[256] =
     {   0,
-        1,    1,    1,    1,    1,    1,    1,    1,    2,    3,
+        1,    1,    1,    1,    1,    1,    1,    1,    2,    2,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    2,    1,    1,    4,    1,    1,    1,    1,    5,
+        1,    3,    1,    1,    4,    1,    1,    1,    1,    5,
         6,    1,    1,    1,    1,    1,    1,    7,    7,    7,
         7,    7,    7,    7,    7,    7,    7,    8,    9,    1,
         1,    1,    1,    1,   10,   11,   11,   11,   12,   11,
@@ -470,8 +470,10 @@ char *yytext;
 #line 1 "NagLex.l"
 #line 2 "NagLex.l"
 #include "nag.tab.h"
-#line 474 "lex.yy.c"
-#line 475 "lex.yy.c"
+#include <stdio.h>
+#include <string.h>
+#line 476 "lex.yy.c"
+#line 477 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -688,10 +690,11 @@ YY_DECL
 		}
 
 	{
-#line 18 "NagLex.l"
+#line 22 "NagLex.l"
 
 
-#line 695 "lex.yy.c"
+
+#line 698 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -750,86 +753,94 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 20 "NagLex.l"
-{ return HASH; }
+#line 25 "NagLex.l"
+
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 21 "NagLex.l"
-{ return CRENCAS; }
+#line 26 "NagLex.l"
+{  return HASH; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 22 "NagLex.l"
-{ return OBJETIVOS; }
+#line 27 "NagLex.l"
+{  return CRENCAS;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 23 "NagLex.l"
-{ return PLANOS; }
+#line 28 "NagLex.l"
+{  return OBJETIVOS; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 24 "NagLex.l"
-{ return ABRE_CHAVE; }
+#line 29 "NagLex.l"
+{  return PLANOS; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 25 "NagLex.l"
-{ return FECHA_CHAVE; }
+#line 30 "NagLex.l"
+{  return ABRE_CHAVE; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 26 "NagLex.l"
-{ return PONTO_VIRGULA; }
+#line 31 "NagLex.l"
+{  return FECHA_CHAVE; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 27 "NagLex.l"
-{ return ABRE_PARENTESE; }
+#line 32 "NagLex.l"
+{  return PONTO_VIRGULA; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 28 "NagLex.l"
-{ return FECHA_PARENTESE; }
+#line 33 "NagLex.l"
+{  return ABRE_PARENTESE; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 29 "NagLex.l"
-{ return E; }
+#line 34 "NagLex.l"
+{  return FECHA_PARENTESE; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 30 "NagLex.l"
-{ return OU; }
+#line 35 "NagLex.l"
+{  return E; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 31 "NagLex.l"
-{ return NAO; }
+#line 36 "NagLex.l"
+{  return OU;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 32 "NagLex.l"
-{ yylval.str = strdup(yytext); return NAME; }
+#line 37 "NagLex.l"
+{  return NAO; }                    
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 33 "NagLex.l"
-{ return yytext[0]; } /* Retornar outros caracteres como tokens */
+#line 38 "NagLex.l"
+{
+    yylval.str = (char *)malloc(strlen(yytext) + 1);
+    if (yylval.str == NULL) {
+        fprintf(stderr, "Erro: falha ao alocar memória\n");
+        exit(EXIT_FAILURE);
+    }
+    strcpy(yylval.str, yytext);
+    return NAME;
+}
 	YY_BREAK
 case 15:
 /* rule 15 can match eol */
 YY_RULE_SETUP
-#line 34 "NagLex.l"
-; /* Ignorar espaços em branco */
+#line 47 "NagLex.l"
+
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 36 "NagLex.l"
+#line 50 "NagLex.l"
 ECHO;
 	YY_BREAK
-#line 833 "lex.yy.c"
+#line 844 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1834,7 +1845,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 36 "NagLex.l"
+#line 50 "NagLex.l"
 
 
 int yywrap() {

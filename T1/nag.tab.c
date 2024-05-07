@@ -71,12 +71,32 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "nag.tab.h" // Arquivo de cabeçalho gerado pelo Bison
+
 extern FILE *yyin;
-extern int yylex();
 void yyerror(const char *s);
 
+// Funções para processamento dos tokens
+char* processar_nome(char *nome) {
+    // Implemente aqui sua lógica de processamento para o token NAME
+    // Exemplo simples: apenas retornar o próprio nome
+    return nome;
+}
 
-#line 80 "nag.tab.c"
+char* processar_evento(char *evento) {
+    // Implemente aqui sua lógica de processamento para o token eventoGatilho
+    // Exemplo simples: apenas retornar o próprio evento
+    return evento;
+}
+
+char* processar_expressao(char *expressao) {
+    // Implemente aqui sua lógica de processamento para a expressão lógica
+    // Exemplo simples: apenas retornar a própria expressão
+    return expressao;
+}
+
+
+#line 100 "nag.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -121,26 +141,24 @@ enum yysymbol_kind_t
   YYSYMBOL_OU = 14,                        /* OU  */
   YYSYMBOL_NAO = 15,                       /* NAO  */
   YYSYMBOL_16_ = 16,                       /* '%'  */
-  YYSYMBOL_17_ = 17,                       /* ':'  */
-  YYSYMBOL_YYACCEPT = 18,                  /* $accept  */
-  YYSYMBOL_programa = 19,                  /* programa  */
-  YYSYMBOL_Lagentes = 20,                  /* Lagentes  */
-  YYSYMBOL_agente = 21,                    /* agente  */
-  YYSYMBOL_Lcrencas = 22,                  /* Lcrencas  */
-  YYSYMBOL_lista_crencas = 23,             /* lista_crencas  */
-  YYSYMBOL_nomeCrenca = 24,                /* nomeCrenca  */
-  YYSYMBOL_Lobjetivos = 25,                /* Lobjetivos  */
-  YYSYMBOL_lista_objetivos = 26,           /* lista_objetivos  */
-  YYSYMBOL_nomeObjetivo = 27,              /* nomeObjetivo  */
-  YYSYMBOL_Lplanos = 28,                   /* Lplanos  */
-  YYSYMBOL_lista_planos = 29,              /* lista_planos  */
-  YYSYMBOL_nomePlano = 30,                 /* nomePlano  */
-  YYSYMBOL_tuplaPlano = 31,                /* tuplaPlano  */
-  YYSYMBOL_eventoGatilho = 32,             /* eventoGatilho  */
-  YYSYMBOL_contexto = 33,                  /* contexto  */
-  YYSYMBOL_expressaoLogica = 34,           /* expressaoLogica  */
-  YYSYMBOL_corpo = 35,                     /* corpo  */
-  YYSYMBOL_formulasCorpo = 36              /* formulasCorpo  */
+  YYSYMBOL_YYACCEPT = 17,                  /* $accept  */
+  YYSYMBOL_programa = 18,                  /* programa  */
+  YYSYMBOL_Lagentes = 19,                  /* Lagentes  */
+  YYSYMBOL_agente = 20,                    /* agente  */
+  YYSYMBOL_Lcrencas = 21,                  /* Lcrencas  */
+  YYSYMBOL_lista_crencas = 22,             /* lista_crencas  */
+  YYSYMBOL_Lobjetivos = 23,                /* Lobjetivos  */
+  YYSYMBOL_lista_objetivos = 24,           /* lista_objetivos  */
+  YYSYMBOL_nomeObjetivo = 25,              /* nomeObjetivo  */
+  YYSYMBOL_Lplanos = 26,                   /* Lplanos  */
+  YYSYMBOL_lista_planos = 27,              /* lista_planos  */
+  YYSYMBOL_nomePlano = 28,                 /* nomePlano  */
+  YYSYMBOL_tuplaPlano = 29,                /* tuplaPlano  */
+  YYSYMBOL_eventoGatilho = 30,             /* eventoGatilho  */
+  YYSYMBOL_contexto = 31,                  /* contexto  */
+  YYSYMBOL_expressaoLogica = 32,           /* expressaoLogica  */
+  YYSYMBOL_corpo = 33,                     /* corpo  */
+  YYSYMBOL_formulasCorpo = 34              /* formulasCorpo  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -468,16 +486,16 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  6
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   46
+#define YYLAST   58
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  18
+#define YYNTOKENS  17
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  19
+#define YYNNTS  18
 /* YYNRULES -- Number of rules.  */
 #define YYNRULES  27
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  61
+#define YYNSTATES  59
 
 /* YYMAXUTOK -- Last valid token kind.  */
 #define YYMAXUTOK   270
@@ -499,7 +517,7 @@ static const yytype_int8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,    16,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,    17,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -528,9 +546,9 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    18,    18,    21,    22,    25,    29,    32,    33,    36,
-      39,    42,    43,    46,    49,    52,    53,    56,    59,    63,
-      66,    67,    68,    71,    72,    73,    76,    79
+       0,    41,    41,    44,    45,    48,    54,    57,    58,    61,
+      64,    65,    68,    71,    74,    75,    78,    81,    86,    89,
+      90,    91,    94,    96,    98,   101,   104,   105
 };
 #endif
 
@@ -549,10 +567,10 @@ static const char *const yytname[] =
   "\"end of file\"", "error", "\"invalid token\"", "NAME", "HASH",
   "CRENCAS", "OBJETIVOS", "PLANOS", "ABRE_CHAVE", "FECHA_CHAVE",
   "PONTO_VIRGULA", "ABRE_PARENTESE", "FECHA_PARENTESE", "E", "OU", "NAO",
-  "'%'", "':'", "$accept", "programa", "Lagentes", "agente", "Lcrencas",
-  "lista_crencas", "nomeCrenca", "Lobjetivos", "lista_objetivos",
-  "nomeObjetivo", "Lplanos", "lista_planos", "nomePlano", "tuplaPlano",
-  "eventoGatilho", "contexto", "expressaoLogica", "corpo", "formulasCorpo", YY_NULLPTR
+  "'%'", "$accept", "programa", "Lagentes", "agente", "Lcrencas",
+  "lista_crencas", "Lobjetivos", "lista_objetivos", "nomeObjetivo",
+  "Lplanos", "lista_planos", "nomePlano", "tuplaPlano", "eventoGatilho",
+  "contexto", "expressaoLogica", "corpo", "formulasCorpo", YY_NULLPTR
 };
 
 static const char *
@@ -576,13 +594,12 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      -1,     1,     5,    -1,   -10,     2,   -19,    -8,   -19,    -7,
-     -19,     3,     6,     7,   -19,     8,     4,    -2,   -19,     6,
-      10,   -19,    13,    12,   -19,    11,    14,     9,   -19,    13,
-      15,   -19,    18,   -19,    16,    19,    20,    22,   -19,   -19,
-      18,   -19,    21,   -19,    -3,   -12,    26,    23,   -19,    29,
-      31,   -19,    27,   -19,   -19,    33,    25,   -19,    30,   -19,
-     -19
+      -1,     1,     5,    -1,   -10,     2,   -19,    -8,   -19,     3,
+     -19,     6,     4,     7,     9,     8,     6,   -19,    10,    12,
+     -19,   -19,    11,    13,    14,   -19,    10,    18,   -19,   -19,
+      15,    16,    17,    21,   -19,   -19,    18,   -19,    19,   -19,
+      -3,   -12,    25,    20,   -19,    28,    29,   -19,    26,   -19,
+     -19,    30,    23,    27,    31,   -19,    30,   -19,   -19
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -591,26 +608,25 @@ static const yytype_int8 yypact[] =
 static const yytype_int8 yydefact[] =
 {
        0,     0,     0,     2,     0,     0,     1,     0,     3,     0,
-       4,     0,     8,     0,     9,     0,     0,     0,     6,     8,
-       0,     7,    12,     0,    13,     0,     0,     0,    10,    12,
-       0,    11,    16,     5,     0,     0,     0,     0,    17,    14,
-      16,    19,     0,    15,    22,    21,     0,     0,    20,     0,
-       0,    25,     0,    23,    24,     0,     0,    27,     0,    18,
-      26
+       4,     8,     0,     0,     0,     0,     8,     6,    11,     0,
+       7,    12,     0,     0,     0,     9,    11,    15,     5,    10,
+       0,     0,     0,     0,    16,    13,    15,    18,     0,    14,
+      21,    20,     0,     0,    19,     0,     0,    24,     0,    22,
+      23,    27,     0,     0,     0,    17,    27,    25,    26
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -19,   -19,   -19,    35,   -19,    24,   -19,   -19,    17,   -19,
-     -19,   -18,   -19,   -19,   -19,   -19,   -19,   -19,   -19
+     -19,   -19,   -19,    33,   -19,    -2,   -19,   -11,   -19,   -19,
+      22,   -19,   -19,   -19,   -19,   -19,   -19,   -18
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-       0,     2,     3,     4,    13,    15,    16,    23,    25,    26,
-      33,    35,    36,    38,    42,    47,    48,    56,    58
+       0,     2,     3,     4,    12,    14,    19,    22,    23,    28,
+      31,    32,    34,    38,    43,    44,    52,    54
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -618,49 +634,50 @@ static const yytype_int8 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-      45,    49,    50,     1,     5,     6,     8,     9,    10,    14,
-      11,    12,    46,    17,    19,    20,    24,    18,    22,    27,
-      28,    34,    43,    32,    29,    41,    30,    37,    39,    51,
-      40,    44,    53,    52,    54,    55,    57,    59,     7,    60,
-       0,     0,     0,    21,     0,     0,    31
+      41,    45,    46,     1,     5,     6,     8,     9,    10,    13,
+      15,    11,    42,    21,    20,    29,    18,    16,    17,    24,
+      25,    30,    27,    26,    37,    35,    33,    36,    47,    40,
+      48,    49,    50,    53,    51,    55,     7,    56,    58,     0,
+      57,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,     0,     0,    39
 };
 
 static const yytype_int8 yycheck[] =
 {
        3,    13,    14,     4,     3,     0,    16,     5,    16,     3,
-      17,     8,    15,     6,    10,    17,     3,     9,     8,     7,
-       9,     3,    40,     8,    10,     3,    17,    11,     9,     3,
-      10,    10,     3,    10,     3,     8,     3,    12,     3,     9,
-      -1,    -1,    -1,    19,    -1,    -1,    29
+       6,     8,    15,     3,    16,    26,     8,    10,     9,     7,
+       9,     3,     8,    10,     3,     9,    11,    10,     3,    10,
+      10,     3,     3,     3,     8,    12,     3,    10,    56,    -1,
+       9,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
+      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    36
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
    state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,     4,    19,    20,    21,     3,     0,    21,    16,     5,
-      16,    17,     8,    22,     3,    23,    24,     6,     9,    10,
-      17,    23,     8,    25,     3,    26,    27,     7,     9,    10,
-      17,    26,     8,    28,     3,    29,    30,    11,    31,     9,
-      10,     3,    32,    29,    10,     3,    15,    33,    34,    13,
-      14,     3,    10,     3,     3,     8,    35,     3,    36,    12,
-       9
+       0,     4,    18,    19,    20,     3,     0,    20,    16,     5,
+      16,     8,    21,     3,    22,     6,    10,     9,     8,    23,
+      22,     3,    24,    25,     7,     9,    10,     8,    26,    24,
+       3,    27,    28,    11,    29,     9,    10,     3,    30,    27,
+      10,     3,    15,    31,    32,    13,    14,     3,    10,     3,
+       3,     8,    33,     3,    34,    12,    10,     9,    34
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    18,    19,    20,    20,    21,    22,    23,    23,    24,
-      25,    26,    26,    27,    28,    29,    29,    30,    31,    32,
-      33,    33,    33,    34,    34,    34,    35,    36
+       0,    17,    18,    19,    19,    20,    21,    22,    22,    23,
+      24,    24,    25,    26,    27,    27,    28,    29,    30,    31,
+      31,    31,    32,    32,    32,    33,    34,    34
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr2[] =
 {
-       0,     2,     1,     2,     3,    11,     3,     3,     0,     1,
-       3,     3,     0,     1,     3,     3,     0,     2,     7,     1,
-       1,     1,     0,     3,     3,     2,     3,     1
+       0,     2,     1,     2,     3,     8,     3,     3,     0,     3,
+       3,     0,     1,     3,     3,     0,     2,     7,     1,     1,
+       1,     0,     3,     3,     2,     3,     3,     0
 };
 
 
@@ -1124,163 +1141,169 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* programa: Lagentes  */
-#line 18 "nag.y"
-                   { printf("Análise sintática concluída com sucesso!\n"); exit(EXIT_SUCCESS); }
-#line 1130 "nag.tab.c"
+#line 41 "nag.y"
+                   { printf("{ \"mensagem\": \"Análise sintática concluída com sucesso!\" }\n"); exit(EXIT_SUCCESS); }
+#line 1147 "nag.tab.c"
     break;
 
   case 3: /* Lagentes: agente '%'  */
-#line 21 "nag.y"
-                     { /* Ação de processamento */ }
-#line 1136 "nag.tab.c"
+#line 44 "nag.y"
+                     { printf("{ \"mensagem\": \"Analisando agente...\" }\n"); }
+#line 1153 "nag.tab.c"
     break;
 
   case 4: /* Lagentes: Lagentes agente '%'  */
-#line 22 "nag.y"
-                               { /* Ação de processamento */ }
-#line 1142 "nag.tab.c"
+#line 45 "nag.y"
+                               { printf("{ \"mensagem\": \"Analisando próximo agente...\" }\n"); }
+#line 1159 "nag.tab.c"
     break;
 
-  case 5: /* agente: HASH NAME CRENCAS ':' Lcrencas OBJETIVOS ':' Lobjetivos PLANOS ':' Lplanos  */
-#line 26 "nag.y"
-         { /* Ação de processamento */ }
-#line 1148 "nag.tab.c"
+  case 5: /* agente: HASH NAME CRENCAS Lcrencas OBJETIVOS Lobjetivos PLANOS Lplanos  */
+#line 48 "nag.y"
+                                                                       { 
+    printf("{ \"agente\": \"%s\", \"crencas\": %s, \"objetivos\": %s, \"planos\": %s }\n", 
+        processar_nome((yyvsp[-6].str)), (yyvsp[-4].str), (yyvsp[-2].str), (yyvsp[0].str)); 
+}
+#line 1168 "nag.tab.c"
     break;
 
   case 6: /* Lcrencas: ABRE_CHAVE lista_crencas FECHA_CHAVE  */
-#line 29 "nag.y"
-                                               { /* Ação de processamento */ }
-#line 1154 "nag.tab.c"
+#line 54 "nag.y"
+                                               { printf("{ \"mensagem\": \"Analisando lista de crenças...\" }\n"); }
+#line 1174 "nag.tab.c"
     break;
 
-  case 7: /* lista_crencas: nomeCrenca PONTO_VIRGULA lista_crencas  */
-#line 32 "nag.y"
-                                                      { /* Ação de processamento */ }
-#line 1160 "nag.tab.c"
+  case 7: /* lista_crencas: NAME PONTO_VIRGULA lista_crencas  */
+#line 57 "nag.y"
+                                                { printf("{ \"crenca\": \"%s\" }\n", (yyvsp[-2].str)); }
+#line 1180 "nag.tab.c"
     break;
 
   case 8: /* lista_crencas: %empty  */
-#line 33 "nag.y"
-                           { /* Ação de processamento */ }
-#line 1166 "nag.tab.c"
+#line 58 "nag.y"
+                           { printf("[]\n"); }
+#line 1186 "nag.tab.c"
     break;
 
-  case 9: /* nomeCrenca: NAME  */
-#line 36 "nag.y"
-                 { /* Ação de processamento */ }
-#line 1172 "nag.tab.c"
+  case 9: /* Lobjetivos: ABRE_CHAVE lista_objetivos FECHA_CHAVE  */
+#line 61 "nag.y"
+                                                   { printf("{ \"mensagem\": \"Analisando lista de objetivos...\" }\n"); }
+#line 1192 "nag.tab.c"
     break;
 
-  case 10: /* Lobjetivos: ABRE_CHAVE lista_objetivos FECHA_CHAVE  */
-#line 39 "nag.y"
-                                                   { /* Ação de processamento */ }
-#line 1178 "nag.tab.c"
+  case 10: /* lista_objetivos: nomeObjetivo PONTO_VIRGULA lista_objetivos  */
+#line 64 "nag.y"
+                                                            { printf("{ \"objetivo\": \"%s\" }\n", (yyvsp[-2].str)); }
+#line 1198 "nag.tab.c"
     break;
 
-  case 11: /* lista_objetivos: nomeObjetivo PONTO_VIRGULA lista_objetivos  */
-#line 42 "nag.y"
-                                                            { /* Ação de processamento */ }
-#line 1184 "nag.tab.c"
+  case 11: /* lista_objetivos: %empty  */
+#line 65 "nag.y"
+                           { printf("[]\n"); }
+#line 1204 "nag.tab.c"
     break;
 
-  case 12: /* lista_objetivos: %empty  */
-#line 43 "nag.y"
-                           { /* Ação de processamento */ }
-#line 1190 "nag.tab.c"
-    break;
-
-  case 13: /* nomeObjetivo: NAME  */
-#line 46 "nag.y"
-                   { /* Ação de processamento */ }
-#line 1196 "nag.tab.c"
-    break;
-
-  case 14: /* Lplanos: ABRE_CHAVE lista_planos FECHA_CHAVE  */
-#line 49 "nag.y"
-                                             { /* Ação de processamento */ }
-#line 1202 "nag.tab.c"
-    break;
-
-  case 15: /* lista_planos: nomePlano PONTO_VIRGULA lista_planos  */
-#line 52 "nag.y"
-                                                   { /* Ação de processamento */ }
-#line 1208 "nag.tab.c"
-    break;
-
-  case 16: /* lista_planos: %empty  */
-#line 53 "nag.y"
-                           { /* Ação de processamento */ }
-#line 1214 "nag.tab.c"
-    break;
-
-  case 17: /* nomePlano: NAME tuplaPlano  */
-#line 56 "nag.y"
-                           { /* Ação de processamento */ }
-#line 1220 "nag.tab.c"
-    break;
-
-  case 18: /* tuplaPlano: ABRE_PARENTESE eventoGatilho PONTO_VIRGULA contexto PONTO_VIRGULA corpo FECHA_PARENTESE  */
-#line 60 "nag.y"
-          { /* Ação de processamento */ }
-#line 1226 "nag.tab.c"
-    break;
-
-  case 19: /* eventoGatilho: NAME  */
-#line 63 "nag.y"
-                    { /* Ação de processamento */ }
-#line 1232 "nag.tab.c"
-    break;
-
-  case 20: /* contexto: expressaoLogica  */
-#line 66 "nag.y"
-                          { /* Ação de processamento */ }
-#line 1238 "nag.tab.c"
-    break;
-
-  case 21: /* contexto: NAME  */
-#line 67 "nag.y"
-               { /* Ação de processamento */ }
-#line 1244 "nag.tab.c"
-    break;
-
-  case 22: /* contexto: %empty  */
+  case 12: /* nomeObjetivo: NAME  */
 #line 68 "nag.y"
-                      { /* Ação de processamento */ }
-#line 1250 "nag.tab.c"
+                   { printf("\"%s\"", processar_nome((yyvsp[0].str))); }
+#line 1210 "nag.tab.c"
     break;
 
-  case 23: /* expressaoLogica: NAME E NAME  */
+  case 13: /* Lplanos: ABRE_CHAVE lista_planos FECHA_CHAVE  */
 #line 71 "nag.y"
-                             { /* Ação de processamento */ }
-#line 1256 "nag.tab.c"
+                                             { printf("{ \"mensagem\": \"Analisando lista de planos...\" }\n"); }
+#line 1216 "nag.tab.c"
     break;
 
-  case 24: /* expressaoLogica: NAME OU NAME  */
-#line 72 "nag.y"
-                              { /* Ação de processamento */ }
-#line 1262 "nag.tab.c"
+  case 14: /* lista_planos: nomePlano PONTO_VIRGULA lista_planos  */
+#line 74 "nag.y"
+                                                   { printf("{ \"plano\": %s }\n", (yyvsp[-2].str)); }
+#line 1222 "nag.tab.c"
     break;
 
-  case 25: /* expressaoLogica: NAO NAME  */
-#line 73 "nag.y"
-                          { /* Ação de processamento */ }
-#line 1268 "nag.tab.c"
+  case 15: /* lista_planos: %empty  */
+#line 75 "nag.y"
+                           { printf("[]\n"); }
+#line 1228 "nag.tab.c"
     break;
 
-  case 26: /* corpo: ABRE_CHAVE formulasCorpo FECHA_CHAVE  */
-#line 76 "nag.y"
-                                            { /* Ação de processamento */ }
-#line 1274 "nag.tab.c"
+  case 16: /* nomePlano: NAME tuplaPlano  */
+#line 78 "nag.y"
+                           { printf("{ \"nome\": \"%s\", \"tupla\": %s }\n", processar_nome((yyvsp[-1].str)), (yyvsp[0].str)); }
+#line 1234 "nag.tab.c"
     break;
 
-  case 27: /* formulasCorpo: NAME  */
-#line 79 "nag.y"
-                    { /* Ação de processamento */ }
-#line 1280 "nag.tab.c"
+  case 17: /* tuplaPlano: ABRE_PARENTESE eventoGatilho PONTO_VIRGULA contexto PONTO_VIRGULA corpo FECHA_PARENTESE  */
+#line 82 "nag.y"
+          { printf("{ \"eventoGatilho\": \"%s\", \"contexto\": \"%s\", \"corpo\": \"%s\" }\n", 
+              processar_evento((yyvsp[-5].str)), processar_expressao((yyvsp[-3].str)), (yyvsp[-1].str)); }
+#line 1241 "nag.tab.c"
+    break;
+
+  case 18: /* eventoGatilho: NAME  */
+#line 86 "nag.y"
+                    { printf("\"%s\"", processar_evento((yyvsp[0].str))); }
+#line 1247 "nag.tab.c"
+    break;
+
+  case 19: /* contexto: expressaoLogica  */
+#line 89 "nag.y"
+                          { printf("\"%s\"", processar_expressao((yyvsp[0].str))); }
+#line 1253 "nag.tab.c"
+    break;
+
+  case 20: /* contexto: NAME  */
+#line 90 "nag.y"
+               { printf("\"%s\"", processar_nome((yyvsp[0].str))); }
+#line 1259 "nag.tab.c"
+    break;
+
+  case 21: /* contexto: %empty  */
+#line 91 "nag.y"
+                      { printf("\"\""); }
+#line 1265 "nag.tab.c"
+    break;
+
+  case 22: /* expressaoLogica: NAME E NAME  */
+#line 94 "nag.y"
+                             { printf("{ \"expressao\": \"%s %s %s\" }\n", 
+                    processar_nome((yyvsp[-2].str)), "E", processar_nome((yyvsp[0].str))); }
+#line 1272 "nag.tab.c"
+    break;
+
+  case 23: /* expressaoLogica: NAME OU NAME  */
+#line 96 "nag.y"
+                              { printf("{ \"expressao\": \"%s %s %s\" }\n", 
+                    processar_nome((yyvsp[-2].str)), "OU", processar_nome((yyvsp[0].str))); }
+#line 1279 "nag.tab.c"
+    break;
+
+  case 24: /* expressaoLogica: NAO NAME  */
+#line 98 "nag.y"
+                          { printf("{ \"expressao\": \"%s %s\" }\n", "NAO", processar_nome((yyvsp[0].str))); }
+#line 1285 "nag.tab.c"
+    break;
+
+  case 25: /* corpo: ABRE_CHAVE formulasCorpo FECHA_CHAVE  */
+#line 101 "nag.y"
+                                            { printf("{ \"corpo\": %s }\n", (yyvsp[-1].str)); }
+#line 1291 "nag.tab.c"
+    break;
+
+  case 26: /* formulasCorpo: NAME PONTO_VIRGULA formulasCorpo  */
+#line 104 "nag.y"
+                                                { printf("{ \"formula\": \"%s\" }\n", (yyvsp[-2].str)); }
+#line 1297 "nag.tab.c"
+    break;
+
+  case 27: /* formulasCorpo: %empty  */
+#line 105 "nag.y"
+                              { printf("[]\n"); }
+#line 1303 "nag.tab.c"
     break;
 
 
-#line 1284 "nag.tab.c"
+#line 1307 "nag.tab.c"
 
       default: break;
     }
@@ -1473,11 +1496,12 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 82 "nag.y"
+#line 108 "nag.y"
 
 
 void yyerror(const char *s) {
-    printf("Erro de sintaxe: %s\n", s);
+    fprintf(stderr, "Erro: %s\n", s);
+    exit(EXIT_FAILURE);
 }
 
 int main(int argc, char **argv) {
@@ -1490,6 +1514,7 @@ int main(int argc, char **argv) {
         perror("Erro ao abrir o arquivo");
         return EXIT_FAILURE;
     }
+    printf("Iniciando análise sintática...\n");
     yyin = arquivo;
     yyparse();
     fclose(arquivo);
