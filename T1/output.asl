@@ -1,37 +1,56 @@
 Iniciando análise sintática...
-[]
-{ "crenca": "tenhoProtetorSolar" }
-{ "crenca": "estaEnsolarado" }
-{ "mensagem": "Analisando lista de crenças..." }
-"passarProtetorSolar""naoPegarSol"[]
-{ "objetivo": "naoPegarSol" }
-{ "objetivo": "passarProtetorSolar" }
-{ "mensagem": "Analisando lista de objetivos..." }
-"passarProtetorSolar"{ "expressao": "estaEnsolarado E tenhoProtetorSolar" }
-"estaEnsolarado"[]
-{ "formula": "passarProtetorSolar" }
-{ "formula": "pegarProtetorSolar" }
-{ "corpo": pegarProtetorSolar }
-{ "eventoGatilho": "passarProtetorSolar", "contexto": "estaEnsolarado", "corpo": "tenhoProtetorSolar" }
-{ "nome": "plano1", "tupla": plano1 }
-"naoPegarSol"{ "expressao": "NAO estaEnsolarado" }
-"naoPegarSol"[]
-{ "formula": "assistirFilme" }
-{ "formula": "ficarEmCasa" }
-{ "corpo": ficarEmCasa }
-{ "eventoGatilho": "naoPegarSol", "contexto": "naoPegarSol", "corpo": "estaEnsolarado" }
-{ "nome": "plano2", "tupla": plano2 }
-"naoPegarSol"{ "expressao": "estaEnsolarado E tenhoProtetorSolar" }
-"estaEnsolarado"[]
-{ "formula": "lerLivro" }
-{ "formula": "ficarEmCasa" }
-{ "corpo": ficarEmCasa }
-{ "eventoGatilho": "naoPegarSol", "contexto": "estaEnsolarado", "corpo": "tenhoProtetorSolar" }
-{ "nome": "plano3", "tupla": plano3 }
-[]
-{ "plano": plano3 }
-{ "plano": plano2 }
-{ "plano": plano1 }
-{ "mensagem": "Analisando lista de planos..." }
-{ "agente": "carol", "crencas": carol, "objetivos": tenhoProtetorSolar, "planos": naoPegarSol }
-%
+    []
+    tenhoprotetorsolar
+    estaensolarado
+estaEnsolarado
+    passarprotetorsolar
+    naopegarsol
+    []
+    naoPegarSol
+    passarProtetorSolar
+passarProtetorSolar
+    Evento: passarProtetorSolar
+    estaensolarado and tenhoprotetorsolar
+    (estaEnsolarado)
+    []
+    passarProtetorSolar
+    pegarProtetorSolar
+pegarProtetorSolar
+      if Evento: passarProtetorSolar then
+        (estaEnsolarado)
+        tenhoProtetorSolar
+      end
+    plano1
+    Evento: naoPegarSol
+    not estaensolarado
+    (naoPegarSol)
+    []
+    assistirFilme
+    ficarEmCasa
+ficarEmCasa
+      if Evento: naoPegarSol then
+        (naoPegarSol)
+        estaEnsolarado
+      end
+    plano2
+    Evento: naoPegarSol
+    estaensolarado and tenhoprotetorsolar
+    (estaEnsolarado)
+    []
+    lerLivro
+    ficarEmCasa
+ficarEmCasa
+      if Evento: naoPegarSol then
+        (estaEnsolarado)
+        tenhoProtetorSolar
+      end
+    plano3
+    []
+    plano3
+    plano2
+    plano1
+plano1
+agent carol
+  believes carol
+  intends tenhoProtetorSolar
+  plans naoPegarSol

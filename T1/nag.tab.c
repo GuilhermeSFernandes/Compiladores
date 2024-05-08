@@ -71,32 +71,73 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "nag.tab.h" // Arquivo de cabeçalho gerado pelo Bison
+#include <string.h>
+#include <ctype.h>
 
 extern FILE *yyin;
 void yyerror(const char *s);
 
-// Funções para processamento dos tokens
-char* processar_nome(char *nome) {
-    // Implemente aqui sua lógica de processamento para o token NAME
-    // Exemplo simples: apenas retornar o próprio nome
-    return nome;
+char* processar_nome(const char *nome) {
+    if (nome == NULL) {
+        fprintf(stderr, "Erro: nome nulo\n");
+        exit(EXIT_FAILURE);
+    }
+    char *processado = strdup(nome);
+    if (processado == NULL) {
+        fprintf(stderr, "Erro: falha ao alocar memória\n");
+        exit(EXIT_FAILURE);
+    }
+    for (int i = 0; processado[i]; i++) {
+        processado[i] = tolower(processado[i]);
+    }
+    return processado;
 }
 
-char* processar_evento(char *evento) {
-    // Implemente aqui sua lógica de processamento para o token eventoGatilho
-    // Exemplo simples: apenas retornar o próprio evento
-    return evento;
+char* processar_evento(const char *evento) {
+    if (evento == NULL) {
+        fprintf(stderr, "Erro: evento nulo\n");
+        exit(EXIT_FAILURE);
+    }
+    char *processado = strdup(evento);
+    if (processado == NULL) {
+        fprintf(stderr, "Erro: falha ao alocar memória\n");
+        exit(EXIT_FAILURE);
+    }
+    char prefixo[] = "Evento: ";
+    char *resultado = (char*) malloc(strlen(prefixo) + strlen(processado) + 1);
+    if (resultado == NULL) {
+        fprintf(stderr, "Erro: falha ao alocar memória\n");
+        exit(EXIT_FAILURE);
+    }
+    strcpy(resultado, prefixo);
+    strcat(resultado, processado);
+    free(processado);
+    return resultado;
 }
 
-char* processar_expressao(char *expressao) {
-    // Implemente aqui sua lógica de processamento para a expressão lógica
-    // Exemplo simples: apenas retornar a própria expressão
-    return expressao;
+char* processar_expressao(const char *expressao) {
+    if (expressao == NULL) {
+        fprintf(stderr, "Erro: expressao nula\n");
+        exit(EXIT_FAILURE);
+    }
+    char *processado = strdup(expressao);
+    if (processado == NULL) {
+        fprintf(stderr, "Erro: falha ao alocar memória\n");
+        exit(EXIT_FAILURE);
+    }
+    char *resultado = (char*) malloc(strlen(processado) + 3);
+    if (resultado == NULL) {
+        fprintf(stderr, "Erro: falha ao alocar memória\n");
+        exit(EXIT_FAILURE);
+    }
+    resultado[0] = '(';
+    strcpy(resultado + 1, processado);
+    resultado[strlen(resultado)] = ')';
+    free(processado);
+    return resultado;
 }
 
-
-#line 100 "nag.tab.c"
+#line 141 "nag.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -544,11 +585,11 @@ static const yytype_int8 yytranslate[] =
 
 #if YYDEBUG
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
-static const yytype_int8 yyrline[] =
+static const yytype_uint8 yyrline[] =
 {
-       0,    41,    41,    44,    45,    48,    54,    57,    58,    61,
-      64,    65,    68,    71,    74,    75,    78,    81,    86,    89,
-      90,    91,    94,    96,    98,   101,   104,   105
+       0,    81,    81,    84,    85,    88,    96,    99,   100,   103,
+     106,   107,   110,   113,   116,   117,   120,   123,   131,   134,
+     135,   136,   139,   140,   141,   144,   147,   148
 };
 #endif
 
@@ -1141,169 +1182,172 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* programa: Lagentes  */
-#line 41 "nag.y"
-                   { printf("{ \"mensagem\": \"Análise sintática concluída com sucesso!\" }\n"); exit(EXIT_SUCCESS); }
-#line 1147 "nag.tab.c"
+#line 81 "nag.y"
+                   { printf("MAS %s\n", (yyvsp[0].str)); exit(EXIT_SUCCESS); }
+#line 1188 "nag.tab.c"
     break;
 
   case 3: /* Lagentes: agente '%'  */
-#line 44 "nag.y"
-                     { printf("{ \"mensagem\": \"Analisando agente...\" }\n"); }
-#line 1153 "nag.tab.c"
+#line 84 "nag.y"
+                     { printf("%s\n", (yyvsp[-1].str)); }
+#line 1194 "nag.tab.c"
     break;
 
   case 4: /* Lagentes: Lagentes agente '%'  */
-#line 45 "nag.y"
-                               { printf("{ \"mensagem\": \"Analisando próximo agente...\" }\n"); }
-#line 1159 "nag.tab.c"
+#line 85 "nag.y"
+                               { printf("%s\n", (yyvsp[-2].str)); }
+#line 1200 "nag.tab.c"
     break;
 
   case 5: /* agente: HASH NAME CRENCAS Lcrencas OBJETIVOS Lobjetivos PLANOS Lplanos  */
-#line 48 "nag.y"
+#line 88 "nag.y"
                                                                        { 
-    printf("{ \"agente\": \"%s\", \"crencas\": %s, \"objetivos\": %s, \"planos\": %s }\n", 
-        processar_nome((yyvsp[-6].str)), (yyvsp[-4].str), (yyvsp[-2].str), (yyvsp[0].str)); 
+    printf("agent %s\n", processar_nome((yyvsp[-6].str)));
+    printf("  believes %s\n", (yyvsp[-4].str));
+    printf("  intends %s\n", (yyvsp[-2].str));
+    printf("  plans %s\n", (yyvsp[0].str));
 }
-#line 1168 "nag.tab.c"
+#line 1211 "nag.tab.c"
     break;
 
   case 6: /* Lcrencas: ABRE_CHAVE lista_crencas FECHA_CHAVE  */
-#line 54 "nag.y"
-                                               { printf("{ \"mensagem\": \"Analisando lista de crenças...\" }\n"); }
-#line 1174 "nag.tab.c"
+#line 96 "nag.y"
+                                               { printf("%s\n", (yyvsp[-1].str)); }
+#line 1217 "nag.tab.c"
     break;
 
   case 7: /* lista_crencas: NAME PONTO_VIRGULA lista_crencas  */
-#line 57 "nag.y"
-                                                { printf("{ \"crenca\": \"%s\" }\n", (yyvsp[-2].str)); }
-#line 1180 "nag.tab.c"
+#line 99 "nag.y"
+                                                { printf("    %s\n", processar_nome((yyvsp[-2].str))); }
+#line 1223 "nag.tab.c"
     break;
 
   case 8: /* lista_crencas: %empty  */
-#line 58 "nag.y"
-                           { printf("[]\n"); }
-#line 1186 "nag.tab.c"
+#line 100 "nag.y"
+                           { printf("    []\n"); }
+#line 1229 "nag.tab.c"
     break;
 
   case 9: /* Lobjetivos: ABRE_CHAVE lista_objetivos FECHA_CHAVE  */
-#line 61 "nag.y"
-                                                   { printf("{ \"mensagem\": \"Analisando lista de objetivos...\" }\n"); }
-#line 1192 "nag.tab.c"
+#line 103 "nag.y"
+                                                   { printf("%s\n", (yyvsp[-1].str)); }
+#line 1235 "nag.tab.c"
     break;
 
   case 10: /* lista_objetivos: nomeObjetivo PONTO_VIRGULA lista_objetivos  */
-#line 64 "nag.y"
-                                                            { printf("{ \"objetivo\": \"%s\" }\n", (yyvsp[-2].str)); }
-#line 1198 "nag.tab.c"
-    break;
-
-  case 11: /* lista_objetivos: %empty  */
-#line 65 "nag.y"
-                           { printf("[]\n"); }
-#line 1204 "nag.tab.c"
-    break;
-
-  case 12: /* nomeObjetivo: NAME  */
-#line 68 "nag.y"
-                   { printf("\"%s\"", processar_nome((yyvsp[0].str))); }
-#line 1210 "nag.tab.c"
-    break;
-
-  case 13: /* Lplanos: ABRE_CHAVE lista_planos FECHA_CHAVE  */
-#line 71 "nag.y"
-                                             { printf("{ \"mensagem\": \"Analisando lista de planos...\" }\n"); }
-#line 1216 "nag.tab.c"
-    break;
-
-  case 14: /* lista_planos: nomePlano PONTO_VIRGULA lista_planos  */
-#line 74 "nag.y"
-                                                   { printf("{ \"plano\": %s }\n", (yyvsp[-2].str)); }
-#line 1222 "nag.tab.c"
-    break;
-
-  case 15: /* lista_planos: %empty  */
-#line 75 "nag.y"
-                           { printf("[]\n"); }
-#line 1228 "nag.tab.c"
-    break;
-
-  case 16: /* nomePlano: NAME tuplaPlano  */
-#line 78 "nag.y"
-                           { printf("{ \"nome\": \"%s\", \"tupla\": %s }\n", processar_nome((yyvsp[-1].str)), (yyvsp[0].str)); }
-#line 1234 "nag.tab.c"
-    break;
-
-  case 17: /* tuplaPlano: ABRE_PARENTESE eventoGatilho PONTO_VIRGULA contexto PONTO_VIRGULA corpo FECHA_PARENTESE  */
-#line 82 "nag.y"
-          { printf("{ \"eventoGatilho\": \"%s\", \"contexto\": \"%s\", \"corpo\": \"%s\" }\n", 
-              processar_evento((yyvsp[-5].str)), processar_expressao((yyvsp[-3].str)), (yyvsp[-1].str)); }
+#line 106 "nag.y"
+                                                            { printf("    %s\n", (yyvsp[-2].str)); }
 #line 1241 "nag.tab.c"
     break;
 
-  case 18: /* eventoGatilho: NAME  */
-#line 86 "nag.y"
-                    { printf("\"%s\"", processar_evento((yyvsp[0].str))); }
+  case 11: /* lista_objetivos: %empty  */
+#line 107 "nag.y"
+                           { printf("    []\n"); }
 #line 1247 "nag.tab.c"
     break;
 
-  case 19: /* contexto: expressaoLogica  */
-#line 89 "nag.y"
-                          { printf("\"%s\"", processar_expressao((yyvsp[0].str))); }
+  case 12: /* nomeObjetivo: NAME  */
+#line 110 "nag.y"
+                   { printf("    %s\n", processar_nome((yyvsp[0].str))); }
 #line 1253 "nag.tab.c"
     break;
 
-  case 20: /* contexto: NAME  */
-#line 90 "nag.y"
-               { printf("\"%s\"", processar_nome((yyvsp[0].str))); }
+  case 13: /* Lplanos: ABRE_CHAVE lista_planos FECHA_CHAVE  */
+#line 113 "nag.y"
+                                             { printf("%s\n", (yyvsp[-1].str)); }
 #line 1259 "nag.tab.c"
     break;
 
-  case 21: /* contexto: %empty  */
-#line 91 "nag.y"
-                      { printf("\"\""); }
+  case 14: /* lista_planos: nomePlano PONTO_VIRGULA lista_planos  */
+#line 116 "nag.y"
+                                                   { printf("    %s\n", (yyvsp[-2].str)); }
 #line 1265 "nag.tab.c"
     break;
 
+  case 15: /* lista_planos: %empty  */
+#line 117 "nag.y"
+                           { printf("    []\n"); }
+#line 1271 "nag.tab.c"
+    break;
+
+  case 16: /* nomePlano: NAME tuplaPlano  */
+#line 120 "nag.y"
+                           { printf("    %s\n", (yyvsp[-1].str)); }
+#line 1277 "nag.tab.c"
+    break;
+
+  case 17: /* tuplaPlano: ABRE_PARENTESE eventoGatilho PONTO_VIRGULA contexto PONTO_VIRGULA corpo FECHA_PARENTESE  */
+#line 124 "nag.y"
+          { printf("      if %s then\n", processar_evento((yyvsp[-5].str)));
+            printf("        %s\n", processar_expressao((yyvsp[-3].str)));
+            printf("        %s\n", (yyvsp[-1].str));
+            printf("      end\n");
+          }
+#line 1287 "nag.tab.c"
+    break;
+
+  case 18: /* eventoGatilho: NAME  */
+#line 131 "nag.y"
+                    { printf("    %s\n", processar_evento((yyvsp[0].str))); }
+#line 1293 "nag.tab.c"
+    break;
+
+  case 19: /* contexto: expressaoLogica  */
+#line 134 "nag.y"
+                          { printf("    %s\n", processar_expressao((yyvsp[0].str))); }
+#line 1299 "nag.tab.c"
+    break;
+
+  case 20: /* contexto: NAME  */
+#line 135 "nag.y"
+               { printf("    %s\n", processar_nome((yyvsp[0].str))); }
+#line 1305 "nag.tab.c"
+    break;
+
+  case 21: /* contexto: %empty  */
+#line 136 "nag.y"
+                      { printf("    []\n"); }
+#line 1311 "nag.tab.c"
+    break;
+
   case 22: /* expressaoLogica: NAME E NAME  */
-#line 94 "nag.y"
-                             { printf("{ \"expressao\": \"%s %s %s\" }\n", 
-                    processar_nome((yyvsp[-2].str)), "E", processar_nome((yyvsp[0].str))); }
-#line 1272 "nag.tab.c"
+#line 139 "nag.y"
+                             { printf("    %s and %s\n", processar_nome((yyvsp[-2].str)), processar_nome((yyvsp[0].str))); }
+#line 1317 "nag.tab.c"
     break;
 
   case 23: /* expressaoLogica: NAME OU NAME  */
-#line 96 "nag.y"
-                              { printf("{ \"expressao\": \"%s %s %s\" }\n", 
-                    processar_nome((yyvsp[-2].str)), "OU", processar_nome((yyvsp[0].str))); }
-#line 1279 "nag.tab.c"
+#line 140 "nag.y"
+                              { printf("    %s or %s\n", processar_nome((yyvsp[-2].str)), processar_nome((yyvsp[0].str))); }
+#line 1323 "nag.tab.c"
     break;
 
   case 24: /* expressaoLogica: NAO NAME  */
-#line 98 "nag.y"
-                          { printf("{ \"expressao\": \"%s %s\" }\n", "NAO", processar_nome((yyvsp[0].str))); }
-#line 1285 "nag.tab.c"
+#line 141 "nag.y"
+                          { printf("    not %s\n", processar_nome((yyvsp[0].str))); }
+#line 1329 "nag.tab.c"
     break;
 
   case 25: /* corpo: ABRE_CHAVE formulasCorpo FECHA_CHAVE  */
-#line 101 "nag.y"
-                                            { printf("{ \"corpo\": %s }\n", (yyvsp[-1].str)); }
-#line 1291 "nag.tab.c"
+#line 144 "nag.y"
+                                            { printf("%s\n", (yyvsp[-1].str)); }
+#line 1335 "nag.tab.c"
     break;
 
   case 26: /* formulasCorpo: NAME PONTO_VIRGULA formulasCorpo  */
-#line 104 "nag.y"
-                                                { printf("{ \"formula\": \"%s\" }\n", (yyvsp[-2].str)); }
-#line 1297 "nag.tab.c"
+#line 147 "nag.y"
+                                                { printf("    %s\n", (yyvsp[-2].str)); }
+#line 1341 "nag.tab.c"
     break;
 
   case 27: /* formulasCorpo: %empty  */
-#line 105 "nag.y"
-                              { printf("[]\n"); }
-#line 1303 "nag.tab.c"
+#line 148 "nag.y"
+                              { printf("    []\n"); }
+#line 1347 "nag.tab.c"
     break;
 
 
-#line 1307 "nag.tab.c"
+#line 1351 "nag.tab.c"
 
       default: break;
     }
@@ -1496,7 +1540,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 108 "nag.y"
+#line 151 "nag.y"
 
 
 void yyerror(const char *s) {
