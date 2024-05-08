@@ -6,6 +6,7 @@
 
 extern FILE *yyin;
 void yyerror(const char *s);
+FILE *asl_file;
 
 char* processar_nome(const char *nome) {
     if (nome == NULL) {
@@ -78,74 +79,74 @@ char* processar_expressao(const char *expressao) {
 
 %%
 
-programa: Lagentes { printf("MAS %s\n", $1); exit(EXIT_SUCCESS); }
+programa: Lagentes { fclose(asl_file); exit(EXIT_SUCCESS); }
          ;
 
-Lagentes: agente '%' { printf("%s\n", $1); }
-         | Lagentes agente '%' { printf("%s\n", $1); }
+Lagentes: agente '%' { fprintf(asl_file, "!end.\n"); }
+         | Lagentes agente '%' { fprintf(asl_file, "!end.\n"); }
          ;
 
 agente: HASH NAME CRENCAS Lcrencas OBJETIVOS Lobjetivos PLANOS Lplanos { 
-    printf("agent %s\n", processar_nome($2));
-    printf("  believes %s\n", $4);
-    printf("  intends %s\n", $6);
-    printf("  plans %s\n", $8);
+    fprintf(asl_file, "!agent. %s\n", processar_nome($2));
+    fprintf(asl_file, "!beliefs. %s\n", $4);
+    fprintf(asl_file, "!goals. %s\n", $6);
+    fprintf(asl_file, "!plans. %s\n", $8);
 }
        ;
 
-Lcrencas: ABRE_CHAVE lista_crencas FECHA_CHAVE { printf("%s\n", $2); }
+Lcrencas: ABRE_CHAVE lista_crencas FECHA_CHAVE { }
         ;
 
-lista_crencas: NAME PONTO_VIRGULA lista_crencas { printf("    %s\n", processar_nome($1)); }
-             | /* vazio */ { printf("    []\n"); }
+lista_crencas: NAME PONTO_VIRGULA lista_crencas { fprintf(asl_file, "+!belief. %s.\n", processar_nome($1)); }
+             | /* vazio */ { fprintf(asl_file, "+!belief. .\n"); }
              ;
 
-Lobjetivos: ABRE_CHAVE lista_objetivos FECHA_CHAVE { printf("%s\n", $2); }
+Lobjetivos: ABRE_CHAVE lista_objetivos FECHA_CHAVE { }
          ;
 
-lista_objetivos: nomeObjetivo PONTO_VIRGULA lista_objetivos { printf("    %s\n", $1); }
-             | /* vazio */ { printf("    []\n"); }
+lista_objetivos: nomeObjetivo PONTO_VIRGULA lista_objetivos { fprintf(asl_file, "+!goal. %s.\n", $1); }
+             | /* vazio */ { fprintf(asl_file, "+!goal. .\n"); }
              ;
 
-nomeObjetivo: NAME { printf("    %s\n", processar_nome($1)); }
+nomeObjetivo: NAME { fprintf(asl_file, "+!goal. %s.\n", processar_nome($1)); }
           ;
 
-Lplanos: ABRE_CHAVE lista_planos FECHA_CHAVE { printf("%s\n", $2); }
+Lplanos: ABRE_CHAVE lista_planos FECHA_CHAVE { }
          ;
 
-lista_planos: nomePlano PONTO_VIRGULA lista_planos { printf("    %s\n", $1); }
-             | /* vazio */ { printf("    []\n"); }
+lista_planos: nomePlano PONTO_VIRGULA lista_planos { fprintf(asl_file,"+!plan. %s.\n", $1); }
+             | /* vazio */ { fprintf(asl_file, "+!plan. .\n"); }
              ;
 
-nomePlano: NAME tuplaPlano { printf("    %s\n", $1); }
+nomePlano: NAME tuplaPlano { }
           ;
 
 tuplaPlano: ABRE_PARENTESE eventoGatilho PONTO_VIRGULA contexto PONTO_VIRGULA corpo FECHA_PARENTESE
-          { printf("      if %s then\n", processar_evento($2));
-            printf("        %s\n", processar_expressao($4));
-            printf("        %s\n", $6);
-            printf("      end\n");
+          { fprintf(asl_file, "+!rule. %s then\n", processar_evento($2));
+            fprintf(asl_file, "  %s\n", processar_expressao($4));
+            fprintf(asl_file, "  %s\n", $6);
+            fprintf(asl_file, "end\n");
           }
           ;
 
-eventoGatilho: NAME { printf("    %s\n", processar_evento($1)); }
+eventoGatilho: NAME { fprintf(asl_file, "%s", processar_evento($1)); }
              ;
 
-contexto: expressaoLogica { printf("    %s\n", processar_expressao($1)); }
-        | NAME { printf("    %s\n", processar_nome($1)); }
-        | /* vazio */ { printf("    []\n"); }
+contexto: expressaoLogica { fprintf(asl_file, "  %s\n", processar_expressao($1)); }
+        | NAME { fprintf(asl_file, "  %s\n", processar_nome($1)); }
+        | /* vazio */ { fprintf(asl_file, "  \n"); }
         ;
 
-expressaoLogica: NAME E NAME { printf("    %s and %s\n", processar_nome($1), processar_nome($3)); }
-               | NAME OU NAME { printf("    %s or %s\n", processar_nome($1), processar_nome($3)); }
-               | NAO NAME { printf("    not %s\n", processar_nome($2)); }
+expressaoLogica: NAME E NAME { fprintf(asl_file, "  %s and %s\n", processar_nome($1), processar_nome($3)); }
+               | NAME OU NAME { fprintf(asl_file, "  %s or %s\n", processar_nome($1), processar_nome($3)); }
+               | NAO NAME { fprintf(asl_file, "  not %s\n", processar_nome($2)); }
                ;
 
-corpo: ABRE_CHAVE formulasCorpo FECHA_CHAVE { printf("%s\n", $2); }
+corpo: ABRE_CHAVE formulasCorpo FECHA_CHAVE { }
      ;
 
-formulasCorpo: NAME PONTO_VIRGULA formulasCorpo { printf("    %s\n", $1); }
-                | /* vazio */ { printf("    []\n"); }
+formulasCorpo: NAME PONTO_VIRGULA formulasCorpo { fprintf(asl_file, "  %s\n", $1); }
+                | /* vazio */ { fprintf(asl_file, "  \n"); }
              ;
 
 %%
@@ -165,9 +166,14 @@ int main(int argc, char **argv) {
         perror("Erro ao abrir o arquivo");
         return EXIT_FAILURE;
     }
-    printf("Iniciando análise sintática...\n");
+    asl_file = fopen("output.asl", "w");
+    if (!asl_file) {
+        perror("Erro ao abrir o arquivo");
+        return EXIT_FAILURE;
+    }
     yyin = arquivo;
     yyparse();
     fclose(arquivo);
+    fclose(asl_file);
     return EXIT_SUCCESS;
 }

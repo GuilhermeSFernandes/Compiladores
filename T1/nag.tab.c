@@ -76,6 +76,7 @@
 
 extern FILE *yyin;
 void yyerror(const char *s);
+FILE *asl_file;
 
 char* processar_nome(const char *nome) {
     if (nome == NULL) {
@@ -137,7 +138,7 @@ char* processar_expressao(const char *expressao) {
     return resultado;
 }
 
-#line 141 "nag.tab.c"
+#line 142 "nag.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -587,9 +588,9 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    81,    81,    84,    85,    88,    96,    99,   100,   103,
-     106,   107,   110,   113,   116,   117,   120,   123,   131,   134,
-     135,   136,   139,   140,   141,   144,   147,   148
+       0,    82,    82,    85,    86,    89,    97,   100,   101,   104,
+     107,   108,   111,   114,   117,   118,   121,   124,   132,   135,
+     136,   137,   140,   141,   142,   145,   148,   149
 };
 #endif
 
@@ -1182,172 +1183,172 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* programa: Lagentes  */
-#line 81 "nag.y"
-                   { printf("MAS %s\n", (yyvsp[0].str)); exit(EXIT_SUCCESS); }
-#line 1188 "nag.tab.c"
+#line 82 "nag.y"
+                   { fclose(asl_file); exit(EXIT_SUCCESS); }
+#line 1189 "nag.tab.c"
     break;
 
   case 3: /* Lagentes: agente '%'  */
-#line 84 "nag.y"
-                     { printf("%s\n", (yyvsp[-1].str)); }
-#line 1194 "nag.tab.c"
+#line 85 "nag.y"
+                     { fprintf(asl_file, "!end.\n"); }
+#line 1195 "nag.tab.c"
     break;
 
   case 4: /* Lagentes: Lagentes agente '%'  */
-#line 85 "nag.y"
-                               { printf("%s\n", (yyvsp[-2].str)); }
-#line 1200 "nag.tab.c"
+#line 86 "nag.y"
+                               { fprintf(asl_file, "!end.\n"); }
+#line 1201 "nag.tab.c"
     break;
 
   case 5: /* agente: HASH NAME CRENCAS Lcrencas OBJETIVOS Lobjetivos PLANOS Lplanos  */
-#line 88 "nag.y"
+#line 89 "nag.y"
                                                                        { 
-    printf("agent %s\n", processar_nome((yyvsp[-6].str)));
-    printf("  believes %s\n", (yyvsp[-4].str));
-    printf("  intends %s\n", (yyvsp[-2].str));
-    printf("  plans %s\n", (yyvsp[0].str));
+    fprintf(asl_file, "!agent. %s\n", processar_nome((yyvsp[-6].str)));
+    fprintf(asl_file, "!beliefs. %s\n", (yyvsp[-4].str));
+    fprintf(asl_file, "!goals. %s\n", (yyvsp[-2].str));
+    fprintf(asl_file, "!plans. %s\n", (yyvsp[0].str));
 }
-#line 1211 "nag.tab.c"
+#line 1212 "nag.tab.c"
     break;
 
   case 6: /* Lcrencas: ABRE_CHAVE lista_crencas FECHA_CHAVE  */
-#line 96 "nag.y"
-                                               { printf("%s\n", (yyvsp[-1].str)); }
-#line 1217 "nag.tab.c"
+#line 97 "nag.y"
+                                               { }
+#line 1218 "nag.tab.c"
     break;
 
   case 7: /* lista_crencas: NAME PONTO_VIRGULA lista_crencas  */
-#line 99 "nag.y"
-                                                { printf("    %s\n", processar_nome((yyvsp[-2].str))); }
-#line 1223 "nag.tab.c"
+#line 100 "nag.y"
+                                                { fprintf(asl_file, "+!belief. %s.\n", processar_nome((yyvsp[-2].str))); }
+#line 1224 "nag.tab.c"
     break;
 
   case 8: /* lista_crencas: %empty  */
-#line 100 "nag.y"
-                           { printf("    []\n"); }
-#line 1229 "nag.tab.c"
+#line 101 "nag.y"
+                           { fprintf(asl_file, "+!belief. .\n"); }
+#line 1230 "nag.tab.c"
     break;
 
   case 9: /* Lobjetivos: ABRE_CHAVE lista_objetivos FECHA_CHAVE  */
-#line 103 "nag.y"
-                                                   { printf("%s\n", (yyvsp[-1].str)); }
-#line 1235 "nag.tab.c"
+#line 104 "nag.y"
+                                                   { }
+#line 1236 "nag.tab.c"
     break;
 
   case 10: /* lista_objetivos: nomeObjetivo PONTO_VIRGULA lista_objetivos  */
-#line 106 "nag.y"
-                                                            { printf("    %s\n", (yyvsp[-2].str)); }
-#line 1241 "nag.tab.c"
+#line 107 "nag.y"
+                                                            { fprintf(asl_file, "+!goal. %s.\n", (yyvsp[-2].str)); }
+#line 1242 "nag.tab.c"
     break;
 
   case 11: /* lista_objetivos: %empty  */
-#line 107 "nag.y"
-                           { printf("    []\n"); }
-#line 1247 "nag.tab.c"
+#line 108 "nag.y"
+                           { fprintf(asl_file, "+!goal. .\n"); }
+#line 1248 "nag.tab.c"
     break;
 
   case 12: /* nomeObjetivo: NAME  */
-#line 110 "nag.y"
-                   { printf("    %s\n", processar_nome((yyvsp[0].str))); }
-#line 1253 "nag.tab.c"
+#line 111 "nag.y"
+                   { fprintf(asl_file, "+!goal. %s.\n", processar_nome((yyvsp[0].str))); }
+#line 1254 "nag.tab.c"
     break;
 
   case 13: /* Lplanos: ABRE_CHAVE lista_planos FECHA_CHAVE  */
-#line 113 "nag.y"
-                                             { printf("%s\n", (yyvsp[-1].str)); }
-#line 1259 "nag.tab.c"
+#line 114 "nag.y"
+                                             { }
+#line 1260 "nag.tab.c"
     break;
 
   case 14: /* lista_planos: nomePlano PONTO_VIRGULA lista_planos  */
-#line 116 "nag.y"
-                                                   { printf("    %s\n", (yyvsp[-2].str)); }
-#line 1265 "nag.tab.c"
+#line 117 "nag.y"
+                                                   { fprintf(asl_file,"+!plan. %s.\n", (yyvsp[-2].str)); }
+#line 1266 "nag.tab.c"
     break;
 
   case 15: /* lista_planos: %empty  */
-#line 117 "nag.y"
-                           { printf("    []\n"); }
-#line 1271 "nag.tab.c"
+#line 118 "nag.y"
+                           { fprintf(asl_file, "+!plan. .\n"); }
+#line 1272 "nag.tab.c"
     break;
 
   case 16: /* nomePlano: NAME tuplaPlano  */
-#line 120 "nag.y"
-                           { printf("    %s\n", (yyvsp[-1].str)); }
-#line 1277 "nag.tab.c"
+#line 121 "nag.y"
+                           { }
+#line 1278 "nag.tab.c"
     break;
 
   case 17: /* tuplaPlano: ABRE_PARENTESE eventoGatilho PONTO_VIRGULA contexto PONTO_VIRGULA corpo FECHA_PARENTESE  */
-#line 124 "nag.y"
-          { printf("      if %s then\n", processar_evento((yyvsp[-5].str)));
-            printf("        %s\n", processar_expressao((yyvsp[-3].str)));
-            printf("        %s\n", (yyvsp[-1].str));
-            printf("      end\n");
+#line 125 "nag.y"
+          { fprintf(asl_file, "+!rule. %s then\n", processar_evento((yyvsp[-5].str)));
+            fprintf(asl_file, "  %s\n", processar_expressao((yyvsp[-3].str)));
+            fprintf(asl_file, "  %s\n", (yyvsp[-1].str));
+            fprintf(asl_file, "end\n");
           }
-#line 1287 "nag.tab.c"
+#line 1288 "nag.tab.c"
     break;
 
   case 18: /* eventoGatilho: NAME  */
-#line 131 "nag.y"
-                    { printf("    %s\n", processar_evento((yyvsp[0].str))); }
-#line 1293 "nag.tab.c"
+#line 132 "nag.y"
+                    { fprintf(asl_file, "%s", processar_evento((yyvsp[0].str))); }
+#line 1294 "nag.tab.c"
     break;
 
   case 19: /* contexto: expressaoLogica  */
-#line 134 "nag.y"
-                          { printf("    %s\n", processar_expressao((yyvsp[0].str))); }
-#line 1299 "nag.tab.c"
+#line 135 "nag.y"
+                          { fprintf(asl_file, "  %s\n", processar_expressao((yyvsp[0].str))); }
+#line 1300 "nag.tab.c"
     break;
 
   case 20: /* contexto: NAME  */
-#line 135 "nag.y"
-               { printf("    %s\n", processar_nome((yyvsp[0].str))); }
-#line 1305 "nag.tab.c"
+#line 136 "nag.y"
+               { fprintf(asl_file, "  %s\n", processar_nome((yyvsp[0].str))); }
+#line 1306 "nag.tab.c"
     break;
 
   case 21: /* contexto: %empty  */
-#line 136 "nag.y"
-                      { printf("    []\n"); }
-#line 1311 "nag.tab.c"
+#line 137 "nag.y"
+                      { fprintf(asl_file, "  \n"); }
+#line 1312 "nag.tab.c"
     break;
 
   case 22: /* expressaoLogica: NAME E NAME  */
-#line 139 "nag.y"
-                             { printf("    %s and %s\n", processar_nome((yyvsp[-2].str)), processar_nome((yyvsp[0].str))); }
-#line 1317 "nag.tab.c"
+#line 140 "nag.y"
+                             { fprintf(asl_file, "  %s and %s\n", processar_nome((yyvsp[-2].str)), processar_nome((yyvsp[0].str))); }
+#line 1318 "nag.tab.c"
     break;
 
   case 23: /* expressaoLogica: NAME OU NAME  */
-#line 140 "nag.y"
-                              { printf("    %s or %s\n", processar_nome((yyvsp[-2].str)), processar_nome((yyvsp[0].str))); }
-#line 1323 "nag.tab.c"
+#line 141 "nag.y"
+                              { fprintf(asl_file, "  %s or %s\n", processar_nome((yyvsp[-2].str)), processar_nome((yyvsp[0].str))); }
+#line 1324 "nag.tab.c"
     break;
 
   case 24: /* expressaoLogica: NAO NAME  */
-#line 141 "nag.y"
-                          { printf("    not %s\n", processar_nome((yyvsp[0].str))); }
-#line 1329 "nag.tab.c"
+#line 142 "nag.y"
+                          { fprintf(asl_file, "  not %s\n", processar_nome((yyvsp[0].str))); }
+#line 1330 "nag.tab.c"
     break;
 
   case 25: /* corpo: ABRE_CHAVE formulasCorpo FECHA_CHAVE  */
-#line 144 "nag.y"
-                                            { printf("%s\n", (yyvsp[-1].str)); }
-#line 1335 "nag.tab.c"
+#line 145 "nag.y"
+                                            { }
+#line 1336 "nag.tab.c"
     break;
 
   case 26: /* formulasCorpo: NAME PONTO_VIRGULA formulasCorpo  */
-#line 147 "nag.y"
-                                                { printf("    %s\n", (yyvsp[-2].str)); }
-#line 1341 "nag.tab.c"
+#line 148 "nag.y"
+                                                { fprintf(asl_file, "  %s\n", (yyvsp[-2].str)); }
+#line 1342 "nag.tab.c"
     break;
 
   case 27: /* formulasCorpo: %empty  */
-#line 148 "nag.y"
-                              { printf("    []\n"); }
-#line 1347 "nag.tab.c"
+#line 149 "nag.y"
+                              { fprintf(asl_file, "  \n"); }
+#line 1348 "nag.tab.c"
     break;
 
 
-#line 1351 "nag.tab.c"
+#line 1352 "nag.tab.c"
 
       default: break;
     }
@@ -1540,7 +1541,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 151 "nag.y"
+#line 152 "nag.y"
 
 
 void yyerror(const char *s) {
@@ -1558,9 +1559,14 @@ int main(int argc, char **argv) {
         perror("Erro ao abrir o arquivo");
         return EXIT_FAILURE;
     }
-    printf("Iniciando análise sintática...\n");
+    asl_file = fopen("output.asl", "w");
+    if (!asl_file) {
+        perror("Erro ao abrir o arquivo");
+        return EXIT_FAILURE;
+    }
     yyin = arquivo;
     yyparse();
     fclose(arquivo);
+    fclose(asl_file);
     return EXIT_SUCCESS;
 }

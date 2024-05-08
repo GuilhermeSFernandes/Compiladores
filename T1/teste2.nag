@@ -1,0 +1,11 @@
+#Gui
+crencas: { estaChovendo ; tenhoGuardaChuva ; }
+objetivos: { naoSeMolhar ; }
+planos: { 
+    plano1 ( naoSeMolhar ; estaChovendo E tenhoGuardaChuva ;
+        { pegarGuardaChuva ; usarGuardaChuva ; } ) ;
+    plano2 ( naoSeMolhar ; NAO estaChovendo ;
+        { sairSemGuardaChuva ; } ) ;
+    plano3 ( naoSeMolhar ; estaChovendo E NAO tenhoGuardaChuva ;
+        { ficarEmCasa ; assistirFilme ; } ) ;
+}%

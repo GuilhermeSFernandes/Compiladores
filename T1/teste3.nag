@@ -1,0 +1,11 @@
+#Bob
+crencas: { estaFrio ; tenhoCasaco ; }
+objetivos: { naoPegarFrio ; }
+planos: { 
+    plano1 ( naoPegarFrio ; estaFrio E tenhoCasaco ;
+        { pegarCasaco ; usarCasaco ; } ) ;
+    plano2 ( naoPegarFrio ; NAO estaFrio ;
+        { sairSemCasaco ; } ) ;
+    plano3 ( naoPegarFrio ; estaFrio E NAO tenhoCasaco ;
+        { ficarEmCasa ; beberChocolateQuente ; } ) ;
+}%

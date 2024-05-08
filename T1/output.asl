@@ -1,56 +1,43 @@
-Iniciando análise sintática...
-    []
-    tenhoprotetorsolar
-    estaensolarado
-estaEnsolarado
-    passarprotetorsolar
-    naopegarsol
-    []
-    naoPegarSol
-    passarProtetorSolar
-passarProtetorSolar
-    Evento: passarProtetorSolar
-    estaensolarado and tenhoprotetorsolar
-    (estaEnsolarado)
-    []
-    passarProtetorSolar
-    pegarProtetorSolar
-pegarProtetorSolar
-      if Evento: passarProtetorSolar then
-        (estaEnsolarado)
-        tenhoProtetorSolar
-      end
-    plano1
-    Evento: naoPegarSol
-    not estaensolarado
-    (naoPegarSol)
-    []
-    assistirFilme
-    ficarEmCasa
-ficarEmCasa
-      if Evento: naoPegarSol then
-        (naoPegarSol)
-        estaEnsolarado
-      end
-    plano2
-    Evento: naoPegarSol
-    estaensolarado and tenhoprotetorsolar
-    (estaEnsolarado)
-    []
-    lerLivro
-    ficarEmCasa
-ficarEmCasa
-      if Evento: naoPegarSol then
-        (estaEnsolarado)
-        tenhoProtetorSolar
-      end
-    plano3
-    []
-    plano3
-    plano2
-    plano1
-plano1
-agent carol
-  believes carol
-  intends tenhoProtetorSolar
-  plans naoPegarSol
++!belief. .
++!belief. tenhoprotetorsolar.
++!belief. estaensolarado.
++!goal. passarprotetorsolar.
++!goal. naopegarsol.
++!goal. .
++!goal. naoPegarSol.
++!goal. passarProtetorSolar.
+Evento: passarProtetorSolar  estaensolarado and tenhoprotetorsolar
+  (estaEnsolarado)
+  
+  passarProtetorSolar
+  pegarProtetorSolar
++!rule. Evento: passarProtetorSolar then
+  (estaEnsolarado)
+  tenhoProtetorSolar
+end
+Evento: naoPegarSol  not estaensolarado
+  (naoPegarSol)
+  
+  assistirFilme
+  ficarEmCasa
++!rule. Evento: naoPegarSol then
+  (naoPegarSol)
+  estaEnsolarado
+end
+Evento: naoPegarSol  estaensolarado and tenhoprotetorsolar
+  (estaEnsolarado)
+  
+  lerLivro
+  ficarEmCasa
++!rule. Evento: naoPegarSol then
+  (estaEnsolarado)
+  tenhoProtetorSolar
+end
++!plan. .
++!plan. plano3.
++!plan. plano2.
++!plan. plano1.
+!agent. carol
+!beliefs. carol
+!goals. tenhoProtetorSolar
+!plans. naoPegarSol
